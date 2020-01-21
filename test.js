@@ -1,1 +1,8 @@
-console.log(Math.random().toString(36).substring(6))
+const newObject = {
+  "one": "three",
+  "two": 2,
+  "three": 3
+}
+
+console.log(newObject["one"])
+
