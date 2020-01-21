@@ -30,7 +30,7 @@
           <tr>
             <td><%= url %></td>
             <td><%= urls[url] %></td>
-            <td><button type="submit" class="btn btn-primary">Delete</button></td>
+            <td><form method="POST" action="/urls/<%= url %>/delete"><button onclick="Delete">Delete</button></form></td>
           </tr>
         <% } %>
       </tbody>

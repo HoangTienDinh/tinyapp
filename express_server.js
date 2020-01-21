@@ -14,13 +14,19 @@ function generateRandomString() {
   return randomstring.generate(6);
 }
 
+
+
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com"
 };
 
+app.post("/urls/:shortURL/delete", (req, res) => {
+  delete urlDatabase[req.params.shortURL];
+  res.redirect("/urls");
+})
+
 app.post("/urls", (req, res) => {
-  console.log(req.body);  // Log the POST request body to the console
   let newString = generateRandomString();
   urlDatabase[newString] = req.body.longURL;
   res.redirect(`/urls/${newString}`);         // Respond with 'Ok' (we will replace this)
@@ -41,8 +47,7 @@ app.get("/urls", (req, res) => {
 });
 
 app.get("/u/:shortURL", (req, res) => {
-  console.log("We are in the route")
   const longURL = urlDatabase[req.params.shortURL]
-  console.log("test ",longURL);
   res.redirect(longURL);
 })
+
