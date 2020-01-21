@@ -27,7 +27,7 @@ app.post("/urls/:shortURL/delete", (req, res) => {
 })
 
 app.post("/urls/:id", (req, res) => {
-  res.redirect("/urls/:shortURL")
+  res.redirect("/urls/:id")
 })
 
 app.post("/urls", (req, res) => {

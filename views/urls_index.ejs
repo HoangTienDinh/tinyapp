@@ -31,8 +31,8 @@
           <tr>
             <td><%= url %></td>
             <td><%= urls[url] %></td>
-            <td><form method="POST" action="/urls/<%= url %>"><button onclick="Edit">Edit</button></form></td>
-            <td><form method="POST" action="/urls/<%= url %>/delete"><button onclick="Delete">Delete</button></form></td>
+            <td><form method="POST" action="/urls/<%= url %>"><button onclick="Edit" type="button" class="btn btn-outline-primary">Edit</button></form></td>
+            <td><form method="POST" action="/urls/<%= url %>/delete"><button onclick="Delete" type="button" class="btn btn-outline-danger">Delete</button></form></td>
           </tr>
         <% } %>
       </tbody>
