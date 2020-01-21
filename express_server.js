@@ -23,7 +23,7 @@ app.post("/urls", (req, res) => {
   console.log(req.body);  // Log the POST request body to the console
   let newString = generateRandomString();
   urlDatabase[newString] = req.body.longURL;
-  res.redirect(`/u/${newString}`);         // Respond with 'Ok' (we will replace this)
+  res.redirect(`/urls/${newString}`);         // Respond with 'Ok' (we will replace this)
 });
 
 app.get("/urls/new", (req, res) => {
@@ -40,20 +40,9 @@ app.get("/urls", (req, res) => {
   res.render("urls_index", templateVars);
 });
 
-app.get("/urls.json", (req, res) => {
-  res.json(urlDatabase);
-});
-
-app.get("/hello", (req, res) => {
-  res.send("<html><body>Hello <b>World</b></body></html>\n")
-});
-
 app.get("/u/:shortURL", (req, res) => {
-  let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] };
-  res.render("urls_show", templateVars);
-});
-
-app.post("/u/:shortURL", (req, res) => {
+  console.log("We are in the route")
   const longURL = urlDatabase[req.params.shortURL]
+  console.log("test ",longURL);
   res.redirect(longURL);
 })
