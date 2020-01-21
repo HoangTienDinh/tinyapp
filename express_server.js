@@ -24,11 +24,15 @@ const urlDatabase = {
 app.post("/urls/:shortURL/delete", (req, res) => {
   delete urlDatabase[req.params.shortURL];
   res.redirect("/urls");
+});
+
+app.post("/urls/login", (req, res) => {
+  res.redirect("/urls")
 })
 
 app.post("/urls/:id", (req, res) => {
-  res.redirect("/urls/:id")
-})
+  res.redirect(`/urls/${req.params.id}`)
+});
 
 app.post("/urls", (req, res) => {
   let newString = generateRandomString();
