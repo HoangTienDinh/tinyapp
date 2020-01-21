@@ -26,6 +26,10 @@ app.post("/urls/:shortURL/delete", (req, res) => {
   res.redirect("/urls");
 })
 
+app.post("/urls/:id", (req, res) => {
+  res.redirect("/urls/:shortURL")
+})
+
 app.post("/urls", (req, res) => {
   let newString = generateRandomString();
   urlDatabase[newString] = req.body.longURL;
