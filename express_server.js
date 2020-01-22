@@ -21,32 +21,36 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
-app.post("/urls/:shortURL/delete", (req, res) => {
+app.post("/urls/:shortURL/delete", (req, res) => {  // Delete the url
   delete urlDatabase[req.params.shortURL];
   res.redirect("/urls");
 });
 
-app.post("/urls/login", (req, res) => {
-  res.cookie('username', req.body.username);
-  res.redirect("/urls");
-});
+// app.post("/urls/logout", (req, res) => {
+//   res.clearCookie('username');
+//   res.redirect("/urls");
+// });
 
-app.post("/urls/logout", (req, res) => {
-  res.clearCookie('username');
-  res.redirect("/urls");
-});
-
-app.post("/urls/:id", (req, res) => {
+app.post("/urls/:id", (req, res) => { // redirects to the edit page
   res.redirect(`/urls/${req.params.id}`);
 });
 
-app.post("/urls", (req, res) => {
+app.post("/login", (req, res) => { // redirects to main page after login
+
+  res.redirect("/login")
+})
+
+app.post("/register", (req, res) => { // redirects to main page after registering
+  res.redirect("/register")
+})
+
+app.post("/urls", (req, res) => { // generates a random string for the webpage that was typed in
   let newString = generateRandomString();
   urlDatabase[newString] = req.body.longURL;
-  res.redirect(`/urls/${newString}`);         // Respond with 'Ok' (we will replace this)
+  res.redirect(`/urls/${newString}`);
 });
 
-app.get("/urls/new", (req, res) => {
+app.get("/urls/new", (req, res) => { 
   let templateVars = {
     username: req.cookies["username"]
   };
@@ -60,6 +64,14 @@ app.get("/urls/:shortURL", (req, res) => {
     username: req.cookies["username"]
   };
   res.render("urls_show", templateVars);
+});
+
+app.get("/login", (req, res) => { // renders the urls_login.ejs
+  res.render("urls_login");
+});
+
+app.get("/register", (req, res) => { // renders the urls_register.ejs
+  res.render("urls_register");
 });
 
 app.get("/urls", (req, res) => {
