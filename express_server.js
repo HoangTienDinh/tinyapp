@@ -5,12 +5,14 @@ const bodyParser = require('body-parser');
 const randomstring = require('randomstring');
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
-const password = "purple-monkey-dinosaur";
-const hashedPassword = bcrypt.hashSync(password, 10);
-app.use(bodyParser.urlencoded({extended: true}));
+
 app.set("view engine", "ejs");
+
+// Middleware
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 
+// Server listening port
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
@@ -18,6 +20,8 @@ app.listen(PORT, () => {
 let generateRandomString = () => {
   return randomstring.generate(6);
 };
+
+// <<<<<<<<<<<<<<<<<< OBJECT VARIABLES >>>>>>>>>>>>>>>>>>>>>
 
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
@@ -31,6 +35,8 @@ const users = {
   }
 };
 
+// <<<<<<<<<<<<< DATA LOOKUP FUNCTION  >>>>>>>>>>>>>>>>>
+
 const emailLookup = function(data, input) {
   for (let key in data) {
     if (data[key].email === input) {
@@ -42,7 +48,8 @@ const emailLookup = function(data, input) {
 
 const passwordLookup = function(data, input) {
   for (let key in data) {
-    if (data[key].password === input) {
+    console.log(bcrypt.compareSync(data[key].password, bcrypt.hashSync(input, 10)))
+    if (bcrypt.compareSync(data[key].password, bcrypt.hashSync(input, 10))) {
       return true;
     }
   }
@@ -57,6 +64,8 @@ const userIDLookup = function(data, input) {
   }
   return false;
 }
+
+// <<<<<<<<<<<<ALL THE app.post BELOW HERE>>>>>>>>>>>>>
 
 // allows for posts to be deleted
 app.post("/urls/:shortURL/delete", (req, res) => {  // Delete the url
@@ -101,8 +110,9 @@ app.post("/register", (req, res) => {
     users[uniqueID] = {
         id: uniqueID,
         email: req.body["email"],
-        password: req.body["password"]
+        password: bcrypt.hashSync(req.body["password"], 10)
     };
+    console.log(users)
   res.cookie("UID", uniqueID);
   res.redirect("/urls")
 })
