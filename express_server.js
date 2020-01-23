@@ -22,14 +22,37 @@ const urlDatabase = {
 };
 
 const users = {
-
+  user1: {
+    email: "hoho@mail.com",
+    password: "1234"
+  }
 };
 
+const emailLookup = function(data, input) {
+  for (let key in data) {
+    if (data[key].email === input) {
+      return true;
+    }
+  }
+  return false;
+}
+
+const passwordLookup = function(data, input) {
+  for (let key in data) {
+    if (data[key].password === input) {
+      return true;
+    }
+  }
+  return false;
+}
+
+// allows for posts to be deleted
 app.post("/urls/:shortURL/delete", (req, res) => {  // Delete the url
   delete urlDatabase[req.params.shortURL];
   res.redirect("/urls");
 });
 
+// posts for the logout button and redirects
 app.post("/logout", (req, res) => {
   res.clearCookie('UID');
   res.redirect("/urls");
@@ -42,18 +65,25 @@ app.post("/urls/:id", (req, res) => {
 
 // redirects to main page after login
 app.post("/login", (req, res) => {
-
-  for (let x in users) {
-    if (users[x].email === req.body.email) {
-      res.cookie("UID", users[x].id)
-    } 
-  }
-
+  if (!emailLookup(users, req.body["email"])) {
+    res.sendStatus(403);
+  } else if (!passwordLookup(users, req.body["password"])) {
+    res.sendStatus(403);
+  } else {
+    for (let x in users) {
+      if (users[x].email === req.body["email"]) {
+        res.cookie("UID", users[x].id)
+      } 
+    }
   res.redirect("/urls")
+  }
 })
 
 // redirects to main page after registering
 app.post("/register", (req, res) => {
+  if (emailLookup(users, req.body["email"])) {
+    res.sendStatus(400);
+  }
   let uniqueID = generateRandomString();
     users[uniqueID] = {
         id: uniqueID,
@@ -71,6 +101,7 @@ app.post("/urls", (req, res) => {
   res.redirect(`/urls/${newString}`);
 });
 
+// renders the urls_new
 app.get("/urls/new", (req, res) => { 
   const { UID } = req.cookies
   let templateVars = {
@@ -79,6 +110,7 @@ app.get("/urls/new", (req, res) => {
   res.render("urls_new", templateVars);
 });
 
+// renders the urls_show 
 app.get("/urls/:shortURL", (req, res) => {
   const { UID } = req.cookies
   let templateVars = {
@@ -107,16 +139,17 @@ app.get("/register", (req, res) => {
   res.render("urls_register", templateVars) ;
 });
 
+// renders the urls_index
 app.get("/urls", (req, res) => {
   const { UID } = req.cookies
   let templateVars = {
     urls: urlDatabase,
     email: users[UID]
   };
-  // console.log(users[UID].email)
   res.render("urls_index", templateVars);
 });
 
+// redirects to the edit page
 app.get("/u/:shortURL", (req, res) => {
   const longURL = urlDatabase[req.params.shortURL];
   res.redirect(longURL);
