@@ -20,16 +20,17 @@
     
     <h3>Login</h3>
 
+
+    <form class="form-inline" action="/login" method="POST">
+
       <h5 class="card-title">Email address</h5>
-      <input class="form-control" type="text" name="email" placeholder="Enter email" style="width: 300px; margin: 1em">
+      <input class="form-control" type="email" name="email" placeholder="Enter email" style="width: 300px; margin: 1em" required>
         
 
       <h5 class="card-title">Password</h5>
-      <input class="form-control" type="text" name="password" placeholder="Password" style="width: 300px; margin: 1em">
+      <input class="form-control" type="password" name="password" placeholder="Password" style="width: 300px; margin: 1em" required>
 
 
-
-    <form class="form-inline" action="/login" method="POST">
       <button type="submit" class="btn btn-primary">Login</button>
     </form>
 

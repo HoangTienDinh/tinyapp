@@ -12,7 +12,8 @@
     </div>
 
       
-    <form class="form-inline" action="/login" method="POST">
+    <% if(!email) { %>
+    <form class="form-inline" action="/login" method="GET">
       <div class="form-group mb-2">
         <button class="btn btn-outline-dark">Login</button>
       </div>
@@ -21,12 +22,24 @@
     &nbsp;
     &nbsp;
 
-
-    <form class="form-inline" action="/register" method="POST">
+    <form class="form-inline" action="/register" method="GET">
       <div class="form-group mb-2">
         <button class="btn btn-outline-dark">Register</button>
       </div>
     </form>
     
+    <% } else { %>
+
+   <form class="form-inline" action="/logout" method="POST">
+    <div class="form-group mb-2">
+      <span>Logged In As: <%= email.email %>!</span>
+      &nbsp;
+      &nbsp;
+      <button class="btn btn-outline-dark">Logout</button>
+    </div>
+  </form>
+
+  <% } %>
+
   </nav>
 </header>
