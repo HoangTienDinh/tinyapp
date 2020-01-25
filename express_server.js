@@ -14,7 +14,6 @@ app.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000 // lasts for 24 hours
 }));
 
-
 app.get("/urls/new", (req, res) => {
   const user = users[req.session.user_id];
   if (!user) {
@@ -76,19 +75,14 @@ app.get('/register', (req, res) => {
 });
 app.post('/register', (req, res) => {
   const { email, password } = req.body;
-
   const registeredAlready = Boolean(emailLookup(email, users));
-
   if (registeredAlready) {
     res.sendStatus(400);
     return;
   }
-
   const id = generateRandomString;
   const hashedPassword = bcrypt.hashSync(password, 10);
-
   users[id] = { id, email, hashedPassword };
-
   req.session.user_id = id;
   res.redirect('/urls');
 });
@@ -100,7 +94,6 @@ app.get('/login', (req, res) => {
 });
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
-
   if (!(email || password)) {
     res.sendStatus(403);
     return;
