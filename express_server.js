@@ -1,9 +1,10 @@
 const {  urlDatabase, users, emailLookup, loginCheck, urlLookup,  moment, morgan, bodyParser, cookieSession, PORT, app, generateRandomString, bcrypt } = require('./helpers.js');
-
 app.set('view engine', 'ejs');
 app.listen(PORT, () => {
   console.log(`Tiny app listening on port ${PORT}!`);
 });
+
+// ALL MIDDLEWARE
 app.use(morgan('tiny'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -23,6 +24,7 @@ app.get("/urls/new", (req, res) => {
   res.render("urls_new", { user });
 });
 
+// Checks for urls and if valid users are logged in
 app.get("/urls/:shortUrl", (req, res) => {
   const user = users[req.session.user_id]
   const shortUrl = req.params.shortUrl;
@@ -34,7 +36,6 @@ app.get("/urls/:shortUrl", (req, res) => {
     res.sendStatus(404);
     return;
   }
-
   const templateVars  = {
     ...urlDatabase[shortUrl],
     user,
@@ -48,7 +49,6 @@ app.post('/urls/:shortUrl', (req, res) => {
     res.sendStatus(404);
     return;
   }
-
   if (user_id !== urlDatabase[shortUrl].user_id) {
     res.sendStatus(403);    
     return;
@@ -69,16 +69,7 @@ app.get("/u/:shortUrl", (req, res) => {
   res.redirect(longUrl);
 })
 
-app.get('/error', (req, res) => {
-  const { msg, code } = req.query;
-  const templateVars = {
-    user: users[req.session.user_id],
-    msg,
-  }
-  res.status(code);
-  res.render('error', templateVars);
-});
-
+// Allows for new users and checks if that email is used yet.
 app.get('/register', (req, res) => {
   const user = users[req.session.user_id];
   res.render('register', { user });
@@ -102,6 +93,7 @@ app.post('/register', (req, res) => {
   res.redirect('/urls');
 });
 
+// Checks to see valid emails/passwords
 app.get('/login', (req, res) => {
   const user = users[req.session.user_id];
   res.render('login', { user });
@@ -122,6 +114,7 @@ app.post('/login', (req, res) => {
   res.redirect('/urls');
 });
 
+// Displays urls
 app.get('/urls', (req, res) => {
   const user = users[req.session.user_id];
   if (!user) {
@@ -159,6 +152,7 @@ app.get("/", (req, res) => {
   res.redirect('/login');
 });
 
+// Deletes url
 app.post('/urls/:shortUrl/delete', (req, res) => {
   const { shortUrl } = req.params;
   const user_id = req.session.user_id
