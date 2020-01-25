@@ -16,24 +16,17 @@
   </header>
   
   <main style="margin: 1em;">
-    
 
-    <h3>Create Account</h3>
-
-    <form class="form-inline" action="/register" method="POST">
-      
-      <label for="email">Email address:
-        <input class="form-control" type="email" name="email" placeholder="Enter email" style="width: 300px; margin: 1em" required>
-      </label>
-
-      <label for="password">Password:
-        <input class="form-control" type="password" name="password" placeholder="Password" style="width: 300px; margin: 1em" required>
-      </label>
-      <button type="submit" class="btn btn-primary">Register</button>
-
+    <h1 class="">Login to your account!</h1>
+    <form method="POST" action="/login">
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit" class="btn btn-primary">Log In</button>
     </form>
-
+ 
   </main>
+
+  
   <!-- Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

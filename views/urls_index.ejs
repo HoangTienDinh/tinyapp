@@ -16,28 +16,42 @@
   </header>
   
   <main style="margin: 1em;">
-    <h3>My URLs</h3>
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">Short URL</th>
-          <th scope="col">Long URL</th>
-          <th scope="col">Edit</th>
-          <th scope="col">Delete</th>
+          <th>Short Url</th>
+          <th>Long Url</th>
+          <th>Time Created</th>
+          <th>Edit</th>
+          <th>Delete</th>
+          <th>
         </tr>
       </thead>
       <tbody>
-        <% for(let shortURL in urls) { %>
+        <% for ( url of Object.values(usersUrls)) { %>
+          <% let { id, longUrl, time } = url; %>
           <tr>
-            <td><%= shortURL %></td>
-            <td><%= urls[shortURL].longURL %></td>
-            <td><form method="POST" action="/urls/<%= shortURL %>"><button onclick="Edit" class="btn btn-outline-primary">Edit</button></form></td>
-            <td><form method="POST" action="/urls/<%= shortURL %>/delete"><button onclick="Delete"  class="btn btn-outline-danger">Delete</button></form></td>
+
+
+            <td><a href="<%= longUrl %>"><%= id %></a></td>
+            <td><a href="<%= longUrl %>"><%= longUrl %></a></td>
+            <td><%= time.fromNow(); %></td>
+            <td>
+              <form class="form-inline" method= "GET" action="<%= `/urls/${id}` %>">
+                <button type="submit" class="btn btn-primary">Edit</button>
+              </form>
+            </td>
+
+            <td>
+              <form class="form-inline" method="POST" action=<%= `/urls/${id}/delete` %>>
+                <button type="submit" class="btn btn-outline-danger">Delete</button>
+              </form>
+            </td>
+
           </tr>
         <% } %>
       </tbody>
     </table>
-
   </main>
   <!-- Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

@@ -11,35 +11,25 @@
       </div>
     </div>
 
-      
-    <% if(!email) { %>
+  <% if (user) { %>
+    <%= `Signed in as ${user.email}` %>
+    &nbsp;
+    &nbsp;
+    <form class="form-inline" action="/logout" method="POST">
+        <button type="submit" class="btn btn-outline-dark">Log Out</button>
+        </button>
+    </form>
+  <% } else { %>
     <form class="form-inline" action="/login" method="GET">
-      <div class="form-group mb-2">
-        <button class="btn btn-outline-dark">Login</button>
-      </div>
+        <button type="submit" class="btn btn-outline-dark">Log In</button>
     </form>
-
     &nbsp;
     &nbsp;
-
     <form class="form-inline" action="/register" method="GET">
-      <div class="form-group mb-2">
-        <button class="btn btn-outline-dark">Register</button>
-      </div>
+        <button type="submit" class="btn btn-outline-dark">Register</button>
     </form>
-    
-    <% } else { %>
-
-   <form class="form-inline" action="/logout" method="POST">
-    <div class="form-group mb-2">
-      <span>Logged In As: <%= email.email %>!</span>
-      &nbsp;
-      &nbsp;
-      <button class="btn btn-outline-dark">Logout</button>
-    </div>
-  </form>
-
   <% } %>
+</div>
 
-  </nav>
+</nav>
 </header>
